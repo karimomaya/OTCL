@@ -1,0 +1,65 @@
+textarea {
+	width:100%;
+	height: 200px;
+	margin: 0px;
+}	
+.oqleditor {
+	width:100%;
+}
+#cli {
+    font-size: 12px;
+}
+.container {
+	margin: 10px;
+}
+.tips {
+	font-size: 12px;
+	text-align: left
+}
+.red {
+	color: #f44336!important;
+}
+
+th {
+	font-size: 13px;
+}
+
+td {
+	font-size:  12px;
+}
+.collapsible {
+    background-color: #777;
+    color: white;
+    cursor: pointer;
+    padding: 18px;
+    width: 100%;
+    border: none;
+    text-align: left;
+    outline: none;
+    font-size: 15px;
+}
+
+.active, .collapsible:hover {
+    background-color: #555;
+}
+
+.content {
+    padding: 0 18px;
+    display: none;
+    overflow: hidden;
+    background-color: #f1f1f1;
+}
+
+.w3-sidebar {
+	width: 40% !important;
+}
+.error {
+	position: fixed;
+    width: 100%;
+    bottom: 0;
+    margin: 0;
+    text-align: center;
+    padding: 10px;
+    display: none;
+   	height: 50px;
+}

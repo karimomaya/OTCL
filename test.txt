@@ -1,0 +1,3 @@
+auth haitham a
+$x = 59523
+create document "test", x, "C:\\Users\\Administrator\\Desktop\\old\\1.png"

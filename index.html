@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OTCL</title>
+	<link rel="stylesheet" href="/css/w3schools.css">
+	<link rel="stylesheet" href="/css/style.css">
+	<script type="text/javascript" src="base64js.min.js"></script>
+</head>
+<body>
+	<div class="w3-sidebar w3-bar-block w3-card w3-animate-right" style="display:none;right:0; width: 40%" id="rightMenu">
+	  	
+	  	<button onclick="closeRightMenu()" class="w3-bar-item w3-button w3-large" style=" float: right; width: 10%;text-align: right;">&times;</button>
+	  	<div class="oqlhelper">
+	  		<button class="collapsible">Create Request</button>
+			<div class="content">
+				<p class="tips">
+					<b>Declare Variable:</b><br>&nbsp;&nbsp;<span class="red">$x = 1234;</span><br>
+				</p>
+			</div>
+			<button class="collapsible">Get Request</button>
+			<div class="content">
+				<p class="tips">
+					<b>Get node attributes example:</b><br>&nbsp;&nbsp;<span class="red">get node {id}<br>&nbsp;&nbsp;get {id}</span><br>
+					<b>Get Sub nodes:</b><br>&nbsp;&nbsp;<span class="red">get sub nodes {id}</span><br>
+					<b>Get node audit:</b><br>&nbsp;&nbsp;<span class="red">get audit {id}</span><br>
+					<b>Get Categories Name and id from node:</b><br>&nbsp;&nbsp;<span class="red">get categories on {id}</span><br>
+					<b>Get node content (X):</b><br>&nbsp;&nbsp;<span class="red">get content {id}</span><br>
+				</p>
+			</div>
+			<button class="collapsible">Create Request</button>
+			<div class="content">
+				<p class="tips">
+					<b>Create Document (X):</b><br>&nbsp;&nbsp;<span class="red">create document{"parentID" : %parentid%, "name" :  %name%, path : %path} = $assigner;</span><br>
+					<b>Create Category:</b><br>&nbsp;&nbsp;<span class="red">create category {parentID: %parentid%, name: %name%} = $assigner;</span><br>
+					<b>Create Channel:</b><br>&nbsp;&nbsp;<span class="red">create channel {parentID: %parentid%, name: %name%} = $assigner;</span><br>
+					<b>Create Compound Document:</b><br>&nbsp;&nbsp;<span class="red">create compound_document {parentID: %parentid%, name: %name%} = $assigner;</span><br>
+					<b>Create Folder:</b><br>&nbsp;&nbsp;<span class="red">create folder {parentID: %parentid%, name: %name%} = $assigner;</span><br>
+					<b>Create News:</b><br>&nbsp;&nbsp;<span class="red">create news {parentID: %parentid%, name: %name%} = $assigner;</span><br>
+					<b>Create Project:</b><br>&nbsp;&nbsp;<span class="red">create project {parentID: %parentid%, name: %name%} = $assigner;</span><br>
+					<b>Create Shortcut:</b><br>&nbsp;&nbsp;<span class="red">create shortcut {parentID: %parentid%, name: %name%} = $assigner;</span><br>
+					<b>Create Task:</b><br>&nbsp;&nbsp;<span class="red">create task {parentID: %parentid%, name: %name%} = $assigner;</span><br>
+					<b>Create Task Group:</b><br>&nbsp;&nbsp;<span class="red">create task_group {parentID: %parentid%, name: %name%} = $assigner;</span><br>
+					<b>Create Task List:</b><br>&nbsp;&nbsp;<span class="red">create task_list {parentID: %parentid%, name: %name%} = $assigner;</span><br>
+					<b>Create Task Milistone:</b><br>&nbsp;&nbsp;<span class="red">create task_milistone {parentID: %parentid%, name: %name%} = $assigner;</span><br>
+					<!-- <b>Create URL:</b><br>&nbsp;&nbsp;<span class="red">create url {parentID: %parentid%, name: %name%} = $assigner;</span><br> -->
+					<b>Create Virtual Folder:</b><br>&nbsp;&nbsp;<span class="red">create virtual_folder {parentID: %parentid%, name: %name%} = $assigner;</span><br>
+				</p>
+			</div>
+			<button class="collapsible">Copy/Move Node</button>
+			<div class="content">
+				<p class="tips">
+					<b>Copy Node:</b><br>&nbsp;&nbsp;<span class="red">copy from {original_id} to {parent_id};</span><br>
+					<b>Move Node (X):</b><br>&nbsp;&nbsp;<span class="red">move from {original_id} to {parent_id};</span><br>
+				</p>
+			</div>
+			<button class="collapsible">Delete Node</button>
+			<div class="content">
+				<p class="tips">
+					<b>Delete Node (X):</b><br>&nbsp;&nbsp;<span class="red">delete {id};</span><br>
+				</p>
+			</div>
+			<button class="collapsible">Search Nodes</button>
+			<div class="content">
+				<p class="tips">
+					<b>Simple Search Example (X):</b><br>&nbsp;&nbsp;<span class="red">search {name};</span><br>
+					<b>Search with NOT keyword (X):</b><br>&nbsp;&nbsp;<span class="red">search $not {name};</span><br>
+					<b>Search with AND keyword (X):</b><br>&nbsp;&nbsp;<span class="red">search {name} $and {name};</span><br>
+					<b>Search with AND NOT keywords (X):</b><br>&nbsp;&nbsp;<span class="red">search {name} $and not {name};</span><br>
+					<b>Search by Creator name (X):</b><br>&nbsp;&nbsp;<span class="red">search $created by = {yyyy-MM-dd};</span><br>
+					<b>Search by modify date (X):</b><br>&nbsp;&nbsp;<span class="red">search $modify data = {yyyy-MM-dd};</span><br>
+					<b>Search by regex (X):</b><br>&nbsp;&nbsp;<span class="red">search $regex {regex};</span><br>
+					<!-- <b>Search with SOR keyword:</b><br>&nbsp;&nbsp;<span class="red">search $sor {name};</span><br>
+					<b>Search with XOR keyword:</b><br>&nbsp;&nbsp;<span class="red">search $xor {name};</span><br> -->
+					<!-- https://knowledge.opentext.com/knowledge/piroot/llescor/v090701/llescor-h-ugd/en/html/jsframe.htm?lleswbb-h-ugd-sr-lqlkeywd -->
+
+				</p>
+			</div>
+
+		</div>
+	</div>
+
+	<div class="w3-teal">
+	  <!-- <button class="w3-button w3-teal w3-xlarge w3-right" onclick="openRightMenu()">&#9776;</button> -->
+	  <button class="w3-button w3-teal w3-xlarge w3-right" onclick="openRightMenu()">?</button>
+	  <div class="w3-container">
+	    <h1>OpenText Command Line - OTCL</h1>
+	  </div>
+	</div>
+	<div class="container">
+		<div class="oqleditor">
+			<textarea class="w3-input w3-border" id="oql"></textarea>
+			<button class="w3-button w3-teal" style="margin-top: 10px;" onclick="submit()">Run</button>
+		</div>
+		
+	</div>
+	<div class="container" id="tbl-holder">
+		
+	</div>
+	<div style="background-color: black; width: 99%; height: 200px; color: #00FF00; margin: 10px; overflow-y: scroll; ">
+		<p style="padding: 10px;" id="cli"></p>
+	</div>
+	<div class="w3-panel w3-red error" id="error">
+	  <p>I am a panel.</p>
+	</div> 
+	<div class="w3-panel w3-green error" id="success">
+	  <p>I am a panel.</p>
+	</div> 
+
+	<script type="text/javascript">
+
+		function Base64Encode(str, encoding = 'utf-8') {
+			var bytes = new (TextEncoder || TextEncoderLite)(encoding).encode(str);        
+			return base64js.fromByteArray(bytes);
+	}
+
+		
+		function b64EncodeUnicode(str) {
+			return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g,
+        function toSolidBytes(match, p1) {
+            return String.fromCharCode('0x' + p1);
+    }));
+		}
+		
+		function  submit() {			
+			var string = document.getElementById("oql").value;
+
+			var xhttp = new XMLHttpRequest();
+			var url = "http://localhost:3001/";
+			var params = 'otcl='+b64EncodeUnicode(string);
+			console.log(params);
+			xhttp.open('POST', url, true);
+			xhttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
+			xhttp.onreadystatechange = function() {//Call a function when the state changes.
+			    if(xhttp.readyState == 4 && xhttp.status == 200) {
+			        console.log(JSON.parse(xhttp.responseText));
+			    }
+			}
+			xhttp.send(params);
+
+		}
+
+		
+		function openRightMenu() {
+		    document.getElementById("rightMenu").style.display = "block";
+		}
+		function closeRightMenu() {
+		    document.getElementById("rightMenu").style.display = "none";
+		}
+
+		var coll = document.getElementsByClassName("collapsible");
+		var i;
+
+		for (i = 0; i < coll.length; i++) {
+		  coll[i].addEventListener("click", function() {
+		    this.classList.toggle("active");
+		    var content = this.nextElementSibling;
+		    if (content.style.display === "block") {
+		      content.style.display = "none";
+		    } else {
+		      content.style.display = "block";
+		    }
+		  });
+		}
+	</script>
+</body>
+</html>
