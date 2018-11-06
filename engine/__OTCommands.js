@@ -68,7 +68,7 @@ class __OTCommands {
 
         value = this.create_category_message(parent_id, name, value.category);
 
-        _OTRequestData.setToken(__OTVARIABLES["token"]);
+        _OTRequestData.setToken(__OTVARIABLES["xmltoken"]);
         _OTRequestData.setValues(value);
         _OTRequestData.setMethod("POST");
 
