@@ -52,7 +52,7 @@ class __OTCommands {
     create_category(name, parent_id, path){
 
         var fs = require("fs");
-        var value=this.cleanXML(fs.readFileSync("config/"+path+".cat", "utf8")).category;
+        var value=this.cleanXML(fs.readFileSync("config/"+path+".cat", "utf8")).categories;
         console.log(value);
 
         var _OTRequestData = new __OTRequestData();
@@ -66,9 +66,9 @@ class __OTCommands {
         _OTRequestData.setContentType("xml");
         _OTRequestData.setSoapAction("CreateCategory");
 
-        value = this.create_category_message(parent_id, name, value);
+        value = this.create_category_message(parent_id, name, value.category);
 
-        _OTRequestData.setToken(__OTVARIABLES["token"]);
+        _OTRequestData.setToken(__OTVARIABLES["xmltoken"]);
         _OTRequestData.setValues(value);
         _OTRequestData.setMethod("POST");
 
@@ -77,8 +77,8 @@ class __OTCommands {
 
     cleanXML(message){
         var fastXmlParser = require('fast-xml-parser');
-		var jsonObj = fastXmlParser.parse(message);
-		return jsonObj;
+        var jsonObj = fastXmlParser.parse(message);
+        return jsonObj;
     }
 
     create_document(name, parent_id, path){
@@ -122,17 +122,17 @@ class __OTCommands {
     }
 
     getAttributeType(type) {
-		switch(type){
-			case 'string':
-				return 'ns3:StringAttribute';
-			case 'int':
-				return 'ns3:IntegerAttribute';
-			case 'date':
-				return 'ns3:DateAttribute';
-			default:
-				throw `invalid attribute: ${type}`;
-		}
-	}
+        switch(type){
+            case 'string':
+                return 'ns3:StringAttribute';
+            case 'int':
+                return 'ns3:IntegerAttribute';
+            case 'date':
+                return 'ns3:DateAttribute';
+            default:
+                throw `invalid attribute: ${type}`;
+        }
+    }
 
 
     create_category_message(parentId, name, values){
@@ -147,23 +147,29 @@ class __OTCommands {
         '<ns3:name>'+name+'</ns3:name>';
 
         for(var index in values){
+            console.log(typeof values[index].maxValues);
             soap += '<ns3:attributes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="'+this.getAttributeType(values[index].type)+'">'+
-            '<ns3:DisplayName>'+values[index].displayName+'</ns3:DisplayName>'+
+            '<ns3:DisplayName>'+values[index].name+'</ns3:DisplayName>'+
             '<ns3:ID>0</ns3:ID>'+
-            '<ns3:MaxValues>'+values[index].maxValues || 1+'</ns3:MaxValues>'+
-            '<ns3:MinValues>'+values[index].minValues || 1+'</ns3:MinValues>'+
-            '<ns3:ReadOnly><ns2:Value>'+values[index].readOnly || false+'</ns2:Value></ns3:ReadOnly>'+
-            '<ns3:Required>'+values[index].required || false+'</ns3:Required>'+
-            '<ns3:Searchable>'+values[index].searchable || true+'</ns3:Searchable>'+
-            '<ns3:DisplayLength>'+values[index].displayLength || 64+'</ns3:DisplayLength>'+
-            '<ns3:MaxLength>'+values[index].MaxLength || 64+'</ns3:MaxLength>';
+            '<ns3:MaxValues>'+this.return_expected(values[index].maxValues,1)  + '</ns3:MaxValues>'+
+            '<ns3:MinValues>'+this.return_expected(values[index].minValues,1)   +'</ns3:MinValues>'+
+            '<ns3:ReadOnly><ns2:Value>'+this.return_expected(values[index].readOnly, false) +'</ns2:Value></ns3:ReadOnly>'+
+            '<ns3:Required>'+this.return_expected(values[index].required, false) +'</ns3:Required>'+
+            '<ns3:Searchable>'+this.return_expected(values[index].searchable,true)  +'</ns3:Searchable>'+
+            '<ns3:DisplayLength>'+this.return_expected(values[index].displayLength,64) +'</ns3:DisplayLength>'+
+            '<ns3:MaxLength>'+this.return_expected(values[index].MaxLength,64) +'</ns3:MaxLength>';
             if (values[index].type == "date")
-                soap += '<ns3:ShowTime>'+values[index].showTime || true+'</ns3:ShowTime>';
+                soap += '<ns3:ShowTime>'+this.return_expected(values[index].showTime, true)+'</ns3:ShowTime>';
             soap += '</ns3:attributes>';
         }
         
         soap += '</ns3:CreateCategory></S:Body></S:Envelope>';
+        console.log(soap);
         return soap;
+    }
+
+    return_expected(value, expected){
+        return (typeof value == "undefined")? expected : value;
     }
 
     create_document_message(parent_id, name, content, size){

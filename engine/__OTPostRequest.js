@@ -39,11 +39,11 @@ function __OTPostRequest(__OTRequestData) {
 					result = cleanXML(body);
 					result = result["s:Envelope"]["s:Body"];
 					if(result["s:Fault"]){
-						status.push({
-							"command" : __OTRequestData.query,
-							"status" : "Fail: " + result["s:Fault"].faultstring
-						});
+						console.log( result["s:Fault"].faultstring);
 						result = null;
+					}
+					else if(result["CreateCategoryResponse"]){
+						result = result["CreateCategoryResponse"].CreateCategoryResult.ID
 					}
 					else if(result["CreateDocumentResponse"]) {
 						result = result["CreateDocumentResponse"].CreateDocumentResult.ID
