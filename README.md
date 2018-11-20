@@ -10,7 +10,7 @@ voila everything is working enjoy configure you application using simple command
 open engine folder and change the configuration of your Content server from __OTConfig.js
 ### Simple Commands 
 #### Authentication to Content Server
-auth %username% %password%
+<code>auth %username% %password%</code>
 #### Create Nodes
 1- <code>create document %name% , %parent id% , %document file system% </code> <br>
 2- <code>create folder %name% , %parent id% </code> <br>
