@@ -12,7 +12,7 @@ open engine folder and change the configuration of your Content server from __OT
 #### Authentication to Content Server
 auth %username% %password%
 #### Create Nodes
-1- create document %name% , %parent id% , %document file system%
+1- <code>create document %name% , %parent id% , %document file system% </code>
 2- create folder %name% , %parent id%
 3- create news %name%, %parent id%
 4- create project %name%, %parent id%
