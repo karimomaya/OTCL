@@ -18,8 +18,13 @@
   },
   "homepage": "https://github.com/karimomaya/OTCL#readme",
   "dependencies": {
+    "atob": "^2.1.2",
     "body-parser": "^1.18.3",
     "express": "^4.16.4",
-    "pegjs": "^0.10.0"
+    "fast-xml-parser": "^3.12.7",
+    "fs": "0.0.1-security",
+    "path": "^0.12.7",
+    "pegjs": "^0.10.0",
+    "sync-request": "^6.0.0"
   }
 }

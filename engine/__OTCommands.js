@@ -7,7 +7,12 @@ class __OTCommands {
         this._OTConfig = new __OTConfig();
     }
 
-    auth(username, password, xml){
+    auth(username, password){
+        __OTVARIABLES['token'] = this._auth(username, password);
+        __OTVARIABLES['xmltoken'] = this._auth(username, password,'xml');
+    }
+
+    _auth(username, password, xml){
         xml = xml || false;
         var _OTRequestData = new __OTRequestData();
         _OTRequestData.setMethod("POST");
