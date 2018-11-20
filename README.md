@@ -67,7 +67,8 @@ auth %username% %password%
 <code> <% for(var i=0; i< 10; i++){ %> create folder %name% , %parent id <%} %> </code>
 
 ### Examples 
-<code> auth username password 
+```js
+auth username password 
 $cat = create category cat, 5961, categoryConfiguration // note that the variable cat hold the id of the category 
 $folder = create folder name, 5961
 set category folder, cat // now you set the category you just created to the folder you just created :) 
@@ -76,5 +77,5 @@ $x = 0
 <% for(var i=0; i< 10; i++){ %> 
 $x = create folder x , parentID 
 <%} %>
-</code>
+```
 
