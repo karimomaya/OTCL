@@ -69,13 +69,13 @@ open engine folder and change the configuration of your Content server from __OT
 ### Examples 
 ```js
 auth username password 
-$cat = create category cat, 5961, categoryConfiguration // note that the variable cat hold the id of the category 
-$folder = create folder name, 5961
+$cat = create category "category 1", 5961, "categoryConfiguration" // note that the variable cat hold the id of the category 
+$folder = create folder "name", 5961
 set category folder, cat // now you set the category you just created to the folder you just created :) 
 $parentID = 5961
 $x = 0
 <% for(var i=0; i< 10; i++){ %> 
-$x = create folder x , parentID 
+$x = create folder x, parentID 
 <%} %>
 ```
 
