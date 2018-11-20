@@ -24,13 +24,15 @@ class __OTCommands {
         _OTRequestData.setContentType(type);
         _OTRequestData.setValues(values);
 
+        __OTVARIABLES["owner"] = username;
+
         return this.post(_OTRequestData);
     }
 
     create(type,name, parent_id){
 
         var _OTRequestData = new __OTRequestData();
-
+        
         if(isNaN(parent_id)) {
             _OTRequestData.setError("Invalid parent id " + parent_id);
             return _OTRequestData;
@@ -47,6 +49,108 @@ class __OTCommands {
         _OTRequestData.setMethod("POST");
 
         return this.post(_OTRequestData);
+    }
+
+    search_users_roles(type, name){
+        // 0 for user 1 for groups
+        var _OTRequestData = new __OTRequestData();
+        var values = 'where_type='+type+'&query='+name;
+        var url = this._OTConfig.__OTCSURL+'api/v2/members?'+values;
+        _OTRequestData.setURL(url);
+        _OTRequestData.setContentType("form");
+        
+        _OTRequestData.setToken(__OTVARIABLES["token"]);
+        _OTRequestData.setMethod("GET");
+        _OTRequestData.setReturn("search.id");
+
+        return this.post(_OTRequestData);
+    }
+
+    set_permission(node_id, path){
+        var _OTRequestData = new __OTRequestData();
+
+        var fs = require("fs");
+        var values=this.cleanXML(fs.readFileSync("config/"+path+".per", "utf8")).permissions.permission;
+
+        _OTRequestData.setURL(this._OTConfig.__OTWSDLURL);
+        _OTRequestData.setContentType("xml");
+        _OTRequestData.setMethod("POST");
+        _OTRequestData.setToken(__OTVARIABLES["xmltoken"]);
+        _OTRequestData.setSoapAction("SetNodeRights");
+        var right = "";
+        var hasPublic = false;
+        var hasOnwer = false;
+        for(var index in values){
+            var beginWith =  '<ns3:ACLRights>';
+            var endWith = '<ns3:Type>ACL</ns3:Type></ns3:ACLRights>';
+            var userID = -1;
+            switch(values[index].type){
+                case "owner":
+                    hasOnwer = true;
+                    beginWith =  '<ns3:OwnerRight>';
+                    endWith = '<ns3:Type>Owner</ns3:Type></ns3:OwnerRight>';
+                    userID = this.search_users_roles(0, __OTVARIABLES["owner"]);
+                    break;
+                case "public":
+                    hasPublic = true;
+                    userID = -1;
+                    beginWith =  '<ns3:PublicRight>';
+                    endWith = '<ns3:Type>Public</ns3:Type></ns3:PublicRight>';
+                    break;
+                case "ownergroup":
+                    userID = this.search_users_roles(1, values[index].name);
+                    beginWith =  '<ns3:OwnerGroupRight>';
+                    endWith = '<ns3:Type>OwnerGroup</ns3:Type></ns3:OwnerGroupRight>';
+                    break;
+                default:
+                    var type = (values[index].type == "user")?0 : 1;
+                    userID = this.search_users_roles(type, values[index].name);
+                    break;
+            }
+            var permissions = values[index].access.split(",");
+            right +=  this.config_permissions_message(permissions, userID, beginWith, endWith) ;
+            
+        }
+        if(!hasPublic){
+            beginWith =  '<ns3:PublicRight>';
+            endWith = '<ns3:Type>Public</ns3:Type></ns3:PublicRight>';
+            right += this.config_permissions_message([], -1, beginWith, endWith) ;
+        }
+        if(!hasOnwer){
+            var userID = this.search_users_roles(0, __OTVARIABLES["owner"]);
+            beginWith =  '<ns3:OwnerRight>';
+            endWith = '<ns3:Type>Owner</ns3:Type></ns3:OwnerRight>';
+            right += this.config_permissions_message([], userID,  beginWith, endWith) ;
+        }
+
+        _OTRequestData.setValues(this.set_permission_message(right, node_id));
+        return this.post(_OTRequestData);
+    }
+
+    set_category(node_id, category_id){
+        var _OTRequestData = new __OTRequestData();
+        if(isNaN(node_id)) {
+            _OTRequestData.setError("Invalid node id " + node_id);
+            return _OTRequestData;
+        }
+        if(isNaN(category_id)) {
+            _OTRequestData.setError("Invalid category id " + category_id);
+            return _OTRequestData;
+        }
+
+        var url = this._OTConfig.__OTCSURL+'api/v2/nodes/'+node_id+"/categories";
+        _OTRequestData.setURL(url);
+        _OTRequestData.setContentType("form");
+
+        // api/v1/nodes/{id}/categories
+        var values = 'category_id='+category_id;
+
+        _OTRequestData.setToken(__OTVARIABLES["token"]);
+        _OTRequestData.setValues(values);
+        _OTRequestData.setMethod("POST");
+
+        return this.post(_OTRequestData);
+
     }
 
     create_category(name, parent_id, path){
@@ -77,8 +181,8 @@ class __OTCommands {
 
     cleanXML(message){
         var fastXmlParser = require('fast-xml-parser');
-        var jsonObj = fastXmlParser.parse(message);
-        return jsonObj;
+		var jsonObj = fastXmlParser.parse(message);
+		return jsonObj;
     }
 
     create_document(name, parent_id, path){
@@ -122,16 +226,95 @@ class __OTCommands {
     }
 
     getAttributeType(type) {
-        switch(type){
-            case 'string':
-                return 'ns3:StringAttribute';
-            case 'int':
-                return 'ns3:IntegerAttribute';
-            case 'date':
-                return 'ns3:DateAttribute';
-            default:
-                throw `invalid attribute: ${type}`;
+		switch(type){
+			case 'string':
+				return 'ns3:StringAttribute';
+			case 'int':
+				return 'ns3:IntegerAttribute';
+			case 'date':
+				return 'ns3:DateAttribute';
+			default:
+				throw `invalid attribute: ${type}`;
+		}
+    }
+
+    handle_permissions_bitwise(permissions){
+        var result = 0;
+        for (var i=0; i< permissions.length; i++){
+            switch (permissions[i].toLowerCase().trim()){
+                case "add":
+                    result = result | 256; //100000000
+                    break;
+                case "delete":
+                    result = result | 128; // 010000000
+                    break;
+                case "deleteversions":
+                    result = result | 64; // 001000000
+                    break;
+                case "edit":
+                    result = result | 32;//000100000
+                    break;
+                case "editpermissions":
+                    result = result | 16;
+                    break;
+                case "modify":
+                    result = result | 8;
+                    break;
+                case "reserve":
+                    result = result | 4;
+                    break;
+                case "see":
+                    result = result | 1;
+                    break;
+                case "seecontent":
+                    result = result | 2;
+                    break;
+                default: 
+                    result = result;
+            }
         }
+        return result;
+    }
+
+    config_permissions_message(permissions, userId, beginWith, endWith){
+        var soap = beginWith;
+        var result = this.handle_permissions_bitwise(permissions);
+        soap +=   '<ns3:Permissions>'+
+            '<ns3:AddItemsPermission>'+this.compute_bitwise(result, 256)+'</ns3:AddItemsPermission>'+
+            '<ns3:DeletePermission>'+this.compute_bitwise(result, 128)+'</ns3:DeletePermission>'+
+            '<ns3:DeleteVersionsPermission>'+this.compute_bitwise(result, 64)+'</ns3:DeleteVersionsPermission>'+
+            '<ns3:EditAttributesPermission>'+this.compute_bitwise(result, 32)+'</ns3:EditAttributesPermission>'+
+            '<ns3:EditPermissionsPermission>'+this.compute_bitwise(result, 16)+'</ns3:EditPermissionsPermission>'+
+            '<ns3:ModifyPermission>'+this.compute_bitwise(result, 8)+'</ns3:ModifyPermission>'+
+            '<ns3:ReservePermission>'+this.compute_bitwise(result, 4)+'</ns3:ReservePermission>'+
+            '<ns3:SeeContentsPermission>'+this.compute_bitwise(result, 2)+'</ns3:SeeContentsPermission>'+
+            '<ns3:SeePermission>'+this.compute_bitwise(result, 1)+'</ns3:SeePermission>'+
+        '</ns3:Permissions>'+
+        '<ns3:RightID>'+userId+'</ns3:RightID>';
+        soap += endWith;
+        return soap;
+    }
+
+    compute_bitwise(result, id) {
+        return (result & id)? true: false;
+    }
+    
+
+    set_permission_message(right, node_id){
+        return '<?xml version="1.0" ?><S:Envelope xmlns:S="http://schemas.xmlsoap.org/soap/envelope/">'+
+        '<S:Header>'+
+        '<OTAuthentication xmlns="urn:api.ecm.opentext.com">'+
+            '<AuthenticationToken>'+__OTVARIABLES["xmltoken"]+'</AuthenticationToken>'+
+        '</OTAuthentication>'+
+        '</S:Header>'+
+        '<S:Body>'+
+        '<ns3:SetNodeRights xmlns="urn:api.ecm.opentext.com" xmlns:ns2="urn:Core.service.livelink.opentext.com" xmlns:ns3="urn:DocMan.service.livelink.opentext.com">'+
+            '<ns3:ID>'+node_id+'</ns3:ID>'+
+            '<ns3:rights>'+
+                right+
+            '</ns3:rights>'+
+        '</ns3:SetNodeRights>'+
+        '</S:Body></S:Envelope>';
     }
 
 

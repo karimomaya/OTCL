@@ -14,11 +14,14 @@ function __OTPostRequest(__OTRequestData) {
 			'SOAPAction': setSoapAction(),
 			'otcsticket': __OTRequestData.token
 		};
-
 		var options = {
-		    headers: headers,
-		    body: __OTRequestData.values
+			headers: headers,
 		}
+
+		if(__OTRequestData.method != "GET"){
+			options.body = __OTRequestData.values
+		}
+
 		var res = request(__OTRequestData.method, __OTRequestData.url, options);
 		res = res.body.toString('utf-8');
 
@@ -27,12 +30,15 @@ function __OTPostRequest(__OTRequestData) {
 
 	function getReturn(body, __OTRequestData){
         switch(__OTRequestData.return){
-            case "auth.ticket":
+			case "auth.ticket":
+				console.log(JSON.parse(body).ticket);
                 return JSON.parse(body).ticket;
             case "auth.xml.ticket":
                 return cleanXML(body)["s:Envelope"]["s:Body"].AuthenticateUserResponse.AuthenticateUserResult;
             case "properties.id":
-                return JSON.parse(body).results.data.properties.id;
+				return JSON.parse(body).results.data.properties.id;
+			case "search.id":
+				return JSON.parse(body).results[0].data.properties.id;
 			default:
 				result = null;
 				if(__OTRequestData.contentType == "xml"){
@@ -54,7 +60,10 @@ function __OTPostRequest(__OTRequestData) {
 					}
 				}
 				else {
-					result = JSON.parse(body).results.data.properties.id;
+					var data = JSON.parse(body).results.data;
+					if(typeof data == "undefined") return null;
+					if(typeof data.properties =="undefined") return null;
+					result = data.properties.id;
 				}
 				return result;
         }
@@ -75,6 +84,8 @@ function __OTPostRequest(__OTRequestData) {
 				return "urn:Core.service.livelink.opentext.com/AuthenticateUser";
 			case "CreateDocument":
 				return "urn:DocMan.service.livelink.opentext.com/CreateDocument";
+			case "SetNodeRights":
+				return "urn:DocMan.service.livelink.opentext.com/SetNodeRights"
 			default: 
 				return "";
 		}

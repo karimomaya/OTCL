@@ -20,11 +20,13 @@ OTLExpression
 	= "$" [a-zA-Z]+ {return "var " + text().replace("$", "")}
     
 OTRExpression
-	= OTCreate/OTOpen/OTAuth/OTLogout/OTVariable
+	= OTCreate/OTOpen/OTAuth/OTSet/OTVariable
     
- OTVariable = "$" [a-zA-Z]+ {return text().replace("$", "") }
+OTVariable = "$" [a-zA-Z]+ {return text().replace("$", "") }
  			/ [a-zA-Z0-9]+ {return text()}
-    
+
+OTSet = "set" _ obj:("category"/"permission") _ url:[ \t,+a-zA-Z0-9$\/:\.\\'"]* {return "_OTCommands.set_"+obj+ "("+url.join('')+")";}
+
 OTOpen
 	= "open" _ obj:("folder"/"file") _ url:[a-zA-Z0-9\/:\.]* {return "open_"+obj+"(__session, '"+url.join('')+"')";}
   
@@ -33,9 +35,7 @@ OTCreate
 
 OTAuth
 	= "auth" _ uname:[^ \t]+ _ password:[^ \t\r\n]+ { return "__OTVARIABLES['token'] = _OTCommands.auth('"+uname.join('')+"', '"+password.join('')+"');"+"__OTVARIABLES['xmltoken'] = _OTCommands.auth('"+uname.join('')+"', '"+password.join('')+"', 'xml')" }
-    
-OTLogout
-	= "logout" {return "logout(__session)";}
+
     
 JSCode
 	= [^%]* { return text();}
