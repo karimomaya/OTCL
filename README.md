@@ -12,19 +12,19 @@ open engine folder and change the configuration of your Content server from __OT
 #### Authentication to Content Server
 auth %username% %password%
 #### Create Nodes
-1- <code>create document %name% , %parent id% , %document file system% </code>
-2- create folder %name% , %parent id%
-3- create news %name%, %parent id%
-4- create project %name%, %parent id%
-5- create shortcut %name%, %parent id%
-6- create task %name%, %parent id%
-7- create task_group %name%, %parent id%
-8- create task_list %name%, %parent id%
-9- create task_milistone %name%, %parent id%
+1- <code>create document %name% , %parent id% , %document file system% </code> <br>
+2- <code>create folder %name% , %parent id% </code> <br>
+3- <code>create news %name%, %parent id%</code> <br>
+4- <code>create project %name%, %parent id%</code> <br>
+5- <code>create shortcut %name%, %parent id%</code> <br>
+6- <code>create task %name%, %parent id%</code> <br>
+7- <code>create task_group %name%, %parent id%</code> <br>
+8- <code>create task_list %name%, %parent id%</code> <br>
+9- <code>create task_milistone %name%, %parent id%</code> <br>
 #### Declare Categories
-1- create folder called config under the project path 
-2- inside config folder create a file with extension .cat
-3- make your category look like this
+1- create folder called config under the project path <br>
+2- inside config folder create a file with extension .cat <br>
+3- make your category look like this <br>
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <categories>
@@ -39,13 +39,13 @@ auth %username% %password%
 </categories>
 ```
 #### Create Categories
-* create category   %name% , %parent id% , %name of the declaration catergory without extension%
+* <code>create category %name% , %parent id% , %name of the declaration catergory without extension% </code> <br>
 #### set category
-* set category %node id% , %category id%
+* <code> set category %node id% , %category id% </code> <br>
 #### Declare permission
-1- create folder called config under the project path 
-2- inside config folder create a file with extension .per
-3- make your permission look like this
+1- <code> create folder called config under the project path </code> <br>
+2- <code> inside config folder create a file with extension .per </code> <br>
+3- <code> make your permission look like this </code> <br>
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <permissions>
@@ -62,19 +62,19 @@ auth %username% %password%
 </permissions>
 ```
 #### set permission
-* set permission %node id% , %name of the declaration permission without extension%
+* <code> set permission %node id% , %name of the declaration permission without extension% </code> <br>
 #### Write native Javascript code
-&lt;% for(var i=0; i &lt; 10; i++){ %&gt;   create folder %name% , %parent id% <br>&lt;%} %&gt; </span><br>
+<code> <% for(var i=0; i< 10; i++){ %> create folder %name% , %parent id <%} %> </code>
 
 ### Examples 
-auth username password 
+<code> auth username password 
 $cat = create category cat, 5961, categoryConfiguration // note that the variable cat hold the id of the category 
 $folder = create folder name, 5961
 set category folder, cat // now you set the category you just created to the folder you just created :) 
 $parentID = 5961
 $x = 0
-&lt;% for(var i=x; i &lt; 10; i++){ %&gt;
+<% for(var i=0; i< 10; i++){ %> 
 $x = create folder x , parentID 
-&lt;%} %&gt; </span><br>
-
+<%} %>
+</code>
 
