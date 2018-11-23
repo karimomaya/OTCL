@@ -1,5 +1,5 @@
 # OTCL
-OpenText Command Line it's an open source library helping to configure their OT content server environment using only command lines. The main advantage of OTCL is to write (your configuration) once and deploy everywhere.
+OpenText Command Line it's not only a command line it's like programming language you can write our commands with native JavaScript code. this Tool is an open source tool for helping company to configure OT content server environment using some logic . The main advantage of OTCL is to write (your configuration) once and deploy everywhere.
 ## Getting Started
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. See deployment for notes on how to deploy the project on a live system.
 Pull the repo onto your localmachine
