@@ -1,0 +1,30 @@
+{
+  "name": "otcl",
+  "version": "1.0.0",
+  "description": "OpenText CLI",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/karimomaya/OTCL.git"
+  },
+  "author": "Karim Omaya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/karimomaya/OTCL/issues"
+  },
+  "homepage": "https://github.com/karimomaya/OTCL#readme",
+  "dependencies": {
+    "atob": "^2.1.2",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "fast-xml-parser": "^3.12.7",
+    "fs": "0.0.1-security",
+    "path": "^0.12.7",
+    "pegjs": "^0.10.0",
+    "sync-request": "^6.0.0"
+  }
+}

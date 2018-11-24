@@ -13,7 +13,7 @@ JSExpression
 	= "<%" code:JSCode "%>" {return code;}
     
 OTExpression
-	= left:OTLExpression _ "=" _ right:OTRExpression { return left + " = " + right + ";";}
+	= left:OTLExpression _ "=" _ right:OTRExpression { return left + " = " + right + ";\n";}
     / right:OTRExpression {return right+";";}
     
 OTLExpression
@@ -34,7 +34,7 @@ OTCreate
 	= "create" _ obj:("folder"/"document"/"category") _ url:[ \t,+a-zA-Z0-9$\/:\.\\'"]* {return (obj == "document")?"_OTCommands.create_"+obj+"(" +url.join('').replace("$","")+")": (obj == "category")? "_OTCommands.create_"+obj+"(" +url.join('')+")": "_OTCommands.create"+"('"+obj +"'," +url.join('')+")";}
 
 OTAuth
-	= "auth" _ uname:[^ \t]+ _ password:[^ \t\r\n]+ { return "__OTVARIABLES['token'] = _OTCommands.auth('"+uname.join('')+"', '"+password.join('')+"');"+"__OTVARIABLES['xmltoken'] = _OTCommands.auth('"+uname.join('')+"', '"+password.join('')+"', 'xml')" }
+	= "auth" _ uname:[^ \t]+ _ password:[^ \t\r\n]+ { return "_OTCommands.auth('"+uname.join('')+"', '"+password.join('')+"')" }
 
     
 JSCode

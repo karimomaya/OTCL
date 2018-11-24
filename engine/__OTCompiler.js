@@ -59,14 +59,14 @@ function __OTCompiler() {
         console.log(__otcl);
 
         var js = 
-        "let __OTCommands    = require('./__OTCommands.js');"+
-        "var _OTCommands     = new __OTCommands();"
+        "let __OTCommands    = require('./__OTCommands.js');\n"+
+        "var _OTCommands     = new __OTCommands();\n"
 
         js += parser.parse(__otcl);
 
         var fs = require('fs');
 
-        fs.appendFileSync('temp.js', js,function(err, data){
+        fs.writeFileSync('temp.js', js,function(err, data){
             if (err) console.log(err);
             console.log("Successfully Written to File.");
         });
