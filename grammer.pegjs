@@ -7,7 +7,7 @@ File
     }
 
 Expression 
-	= _ exp:(JSExpression / OTExpression / NLine) _ {return exp;}
+	= _ exp:(JSExpression / OTExpression / NLine / Comment) _ {return exp;}
 
 JSExpression
 	= "<%" code:JSCode "%>" {return code;}
@@ -45,3 +45,6 @@ _ "whitespace"
   
 NLine
 	= [\r\n]+ {return "\n";}
+
+Comment
+	= "//" [^\n]* { return text();}
