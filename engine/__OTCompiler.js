@@ -9,6 +9,7 @@ function __OTCompiler() {
 
     return {
         translator : translator,
+        evaluator: evaluator,
         convertor : convertor
     }
 
@@ -37,7 +38,7 @@ function __OTCompiler() {
                 }
                 xmlContent += '</permissions>';
                 fs.writeFileSync("config/"+items[i]+".compiled",xmlContent,function(err, data){
-                    if (err) console.log(err);
+                    if (err) console.error(err);
                     console.log("Successfully Written to File.");
                 });
             }
@@ -58,21 +59,19 @@ function __OTCompiler() {
         
         console.log(__otcl);
 
+        js = parser.parse(__otcl);
+        return js;
+    }
+
+    function evaluator(__otcl) {
+        
         var js = 
         "let __OTCommands    = require('./__OTCommands.js');\n"+
-        "var _OTCommands     = new __OTCommands();\n"
+        "var _OTCommands     = new __OTCommands();\n";
+        
+        js += translator(__otcl);
 
-        js += parser.parse(__otcl);
-
-        var fs = require('fs');
-
-        fs.writeFileSync('temp.js', js,function(err, data){
-            if (err) console.log(err);
-            console.log("Successfully Written to File.");
-        });
         eval(js);
-        console.log("done");
     }
-    
 }
 module.exports = __OTCompiler;
