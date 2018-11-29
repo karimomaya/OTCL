@@ -5,8 +5,8 @@ let __OTCompiler     = require("./engine/__OTCompiler.js");
 let fs = require('fs');
 
 program
-  .version('0.0.1')
-  .option('-s','--server','OT server URL')
+  .version('1.0.0')
+  .option('-s, --server <url>','OT server URL','http://localhost/')
   .description('Opentext command-line interface');
 
 program
@@ -29,13 +29,18 @@ program
         __FileSystem.readFile(filename, (err, data) => {
             if (err) throw err;
 
-	    js = "var _OTCommands = require('otcl').commands("+program.server+");\n\n";
+      js = "#!/usr/bin/env node \n\
+            var _OTCL = require('otcl');\n\
+            var _OTCommands = _OTCL.commands('"+program.server+"');\n\n";
+
 	    js += __OTCompiler().translator(data.toString());
   
-            fs.writeFileSync(jsfilename, js,function(err, data){
+            fs.writeFile(jsfilename, js,function(err, data){
                if (err) console.log(err);
               console.log("Successfully Written to File.");
             });
+
+            fs.chmod(jsfilename, '755');
          });
     
   });

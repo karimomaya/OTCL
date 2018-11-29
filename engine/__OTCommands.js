@@ -74,11 +74,11 @@ class __OTCommands {
         return this.post(_OTRequestData);
     }
 
-    set_permission(node_id, path){
+    set_permission(node_id, per_file_name){
         var _OTRequestData = new __OTRequestData();
 
         var fs = require("fs");
-        var values=this.cleanXML(fs.readFileSync("config/"+path+".per", "utf8")).permissions.permission;
+        var values=this.cleanXML(fs.readFileSync(per_file_name, "utf8")).permissions.permission;
 
         _OTRequestData.setURL(this._OTConfig.__OTWSDLURL);
         _OTRequestData.setContentType("xml");
@@ -161,10 +161,10 @@ class __OTCommands {
 
     }
 
-    create_category(name, parent_id, path){
+    create_category(name, parent_id, cat_file_name){
 
         var fs = require("fs");
-        var value=this.cleanXML(fs.readFileSync("config/"+path+".cat", "utf8")).categories;
+        var value=this.cleanXML(fs.readFileSync(cat_file_name, "utf8")).categories;
         console.log(value);
 
         var _OTRequestData = new __OTRequestData();

@@ -12,6 +12,7 @@ function __OTCompiler() {
         convertor : convertor
     }
 
+    ///TODO: Is this method used in code?
     function convertor(){
         translator("auth admin Asset99a");
         var _OTCommands = new __OTCommands();
@@ -41,8 +42,6 @@ function __OTCompiler() {
                     console.log("Successfully Written to File.");
                 });
             }
-
-           
         });
     }
 
