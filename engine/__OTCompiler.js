@@ -5,7 +5,6 @@ let __OTCommands    = require('./__OTCommands.js');
 
 
 function __OTCompiler() {
-   global.__OTVARIABLES = [];
 
     return {
         translator : translator,

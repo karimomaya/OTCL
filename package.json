@@ -8,7 +8,7 @@
   },
   "bin": {
     "ot-cli": "./commandline.js",
-    "ot-cli-server":"./server.js"
+    "ot-cli-server": "./server.js"
   },
   "repository": {
     "type": "git",

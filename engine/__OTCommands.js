@@ -1,6 +1,9 @@
 let __OTRequestData = require('./__OTRequestData.js');
 let __OTPostRequest = require('./__OTPostRequest.js');
 let __OTConfig      = require('./__OTConfig.js');
+
+global.__OTVARIABLES = [];
+
 class __OTCommands {
 
     constructor() {

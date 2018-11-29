@@ -6,6 +6,7 @@ let fs = require('fs');
 
 program
   .version('0.0.1')
+  .option('-s','--server','OT server URL')
   .description('Opentext command-line interface');
 
 program
@@ -27,8 +28,9 @@ program
   .action((filename,jsfilename) => {
         __FileSystem.readFile(filename, (err, data) => {
             if (err) throw err;
-            js = __OTCompiler().translator(data.toString());
 
+	    js = "var _OTCommands = require('otcl').commands("+program.server+");\n\n";
+	    js += __OTCompiler().translator(data.toString());
   
             fs.writeFileSync(jsfilename, js,function(err, data){
                if (err) console.log(err);
