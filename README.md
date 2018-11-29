@@ -7,7 +7,21 @@ open cmd and type node server.js
 access the application from http://localhost:3001/
 voila everything is working enjoy configure you application using simple commands line. for help you can press on the icon ? from the top right corner
 ## Deployment
-open engine folder and change the configuration of your Content server from __OTConfig.js
+<code>sudo npm install -g https://github.com/karimomaya/OTCL.git</code>
+
+### OTCL Command line
+<code>**ot-cli** [options] [command]
+
+**Options:**
+  -V, --version                          output the version number
+  -s, --server \<url\>                     OT server URL (default: "http://localhost/")
+  -h, --help                             output usage information
+
+**Commands:**
+  run|r \<script-file\>                    run script file
+  compile|c \<script-file\> \<out-js-file\>  compile script file to js 
+</code>
+
 ### Simple Commands 
 #### Authentication to Content Server
 <code>auth %username% %password%</code>

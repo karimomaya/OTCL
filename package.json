@@ -1,11 +1,14 @@
 {
   "name": "otcl",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "OpenText CLI",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "./server.js"
+  },
+  "bin": {
+    "ot-cli": "./commandline.js",
+    "ot-cli-server": "./server.js"
   },
   "repository": {
     "type": "git",
@@ -20,6 +23,7 @@
   "dependencies": {
     "atob": "^2.1.2",
     "body-parser": "^1.18.3",
+    "commander": "^2.19.0",
     "express": "^4.16.4",
     "fast-xml-parser": "^3.12.7",
     "fs": "0.0.1-security",

@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 let express          = require('express');
 let bodyParser       = require('body-parser');
 let urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -7,14 +9,14 @@ let __OTCompiler     = require("./engine/__OTCompiler.js");
 
 app.use(express.static(__dirname));
 app.post('/', urlencodedParser, function(req, res){
-    __OTCompiler().translator(b64DecodeUnicode(req.body.otcl))
+    __OTCompiler().evaluator(b64DecodeUnicode(req.body.otcl))
 });
 
 var server = app.listen(port, () => {
 
     var host = server.address().address;
     var port = server.address().port;
-    console.log("Example app listening at http://%s:%s", host, port);
+    console.log("OTCL app listening at http://%s:%s", host, port);
 });
 
 app.get('/', function (req, res) {
