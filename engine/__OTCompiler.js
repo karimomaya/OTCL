@@ -61,11 +61,13 @@ function __OTCompiler() {
         return js;
     }
 
-    function evaluator(__otcl) {
+    function evaluator(__otcl,server_url='http://localhost/') {
         
         var js = 
         "let __OTCommands    = require('./__OTCommands.js');\n"+
-        "var _OTCommands     = new __OTCommands();\n";
+        "let __OTConfig      = require('./__OTConfig.js');\n"+
+        "var _OTCommands     = new __OTCommands();\n"+
+        "_OTCommands._OTConfig = new __OTConfig('"+server_url+"');";
         
         js += translator(__otcl);
 

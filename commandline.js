@@ -16,7 +16,7 @@ program
   .action((filename) => {
         __FileSystem.readFile(filename, (err, data) => {
             if (err) throw err;
-            __OTCompiler().evaluator(data.toString());
+            __OTCompiler().evaluator(data.toString(),program.server);
          });
     
   });
@@ -29,9 +29,9 @@ program
         __FileSystem.readFile(filename, (err, data) => {
             if (err) throw err;
 
-      js = "#!/usr/bin/env node \n\
-            var _OTCL = require('otcl');\n\
-            var _OTCommands = _OTCL.commands('"+program.server+"');\n\n";
+      js = "#!/usr/bin/env node \n"+
+           "var _OTCL = require('otcl');\n"+
+           "var _OTCommands = _OTCL.commands('"+program.server+"');\n\n";
 
 	    js += __OTCompiler().translator(data.toString());
   
