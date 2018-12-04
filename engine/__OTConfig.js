@@ -1,7 +1,7 @@
 
 class __OTConfig  {
-    constructor(){
-        this.__OTDOMAIN      = "http://psuite.example.com/";
+    constructor(domain="http://localhost/"){
+        this.__OTDOMAIN      = domain;
         this.__OTWSDLURL     = this.__OTDOMAIN +"cws/DocumentManagement.svc?wsdl";
         this.__OTCSURL       = this.__OTDOMAIN +"otcs/cs.exe/";
         this.__OTXMLAUTHURL  = this.__OTDOMAIN+ "cws/Authentication.svc?wsdl";

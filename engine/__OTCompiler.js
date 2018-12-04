@@ -5,13 +5,14 @@ let __OTCommands    = require('./__OTCommands.js');
 
 
 function __OTCompiler() {
-   global.__OTVARIABLES = [];
 
     return {
         translator : translator,
+        evaluator: evaluator,
         convertor : convertor
     }
 
+    ///TODO: Is this method used in code?
     function convertor(){
         translator("auth admin Asset99a");
         var _OTCommands = new __OTCommands();
@@ -37,12 +38,10 @@ function __OTCompiler() {
                 }
                 xmlContent += '</permissions>';
                 fs.writeFileSync("config/"+items[i]+".compiled",xmlContent,function(err, data){
-                    if (err) console.log(err);
+                    if (err) console.error(err);
                     console.log("Successfully Written to File.");
                 });
             }
-
-           
         });
     }
 
@@ -58,21 +57,21 @@ function __OTCompiler() {
         
         console.log(__otcl);
 
+        js = parser.parse(__otcl);
+        return js;
+    }
+
+    function evaluator(__otcl,server_url='http://localhost/') {
+        
         var js = 
         "let __OTCommands    = require('./__OTCommands.js');\n"+
-        "var _OTCommands     = new __OTCommands();\n"
+        "let __OTConfig      = require('./__OTConfig.js');\n"+
+        "var _OTCommands     = new __OTCommands();\n"+
+        "_OTCommands._OTConfig = new __OTConfig('"+server_url+"');";
+        
+        js += translator(__otcl);
 
-        js += parser.parse(__otcl);
-
-        var fs = require('fs');
-
-        fs.writeFileSync('temp.js', js,function(err, data){
-            if (err) console.log(err);
-            console.log("Successfully Written to File.");
-        });
         eval(js);
-        console.log("done");
     }
-    
 }
 module.exports = __OTCompiler;
