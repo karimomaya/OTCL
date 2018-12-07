@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+//node --inspect server.js
 
 let express          = require('express');
 let bodyParser       = require('body-parser');
