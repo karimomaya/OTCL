@@ -39,6 +39,16 @@ function __OTPostRequest(__OTRequestData) {
 				return JSON.parse(body).results.data.properties.id;
 			case "search.id":
 				return JSON.parse(body).results[0].data.properties.id;
+			case "xml.properties.id" :
+				return cleanXML(body)["s:Envelope"]["s:Body"].GetNodeByPathResponse.GetNodeByPathResult.ID;
+			case "search.id":
+				var results =  JSON.parse(body).results;
+				var result = "";
+				for (var i=0; i< results.length; i++){
+					if(results[i].data.properties.name == __OTRequestData.searchedValue)
+						result = results[i].data.properties.id;
+				}
+				return result;
 			default:
 				result = null;
 				if(__OTRequestData.contentType == "xml"){
@@ -86,6 +96,8 @@ function __OTPostRequest(__OTRequestData) {
 				return "urn:DocMan.service.livelink.opentext.com/CreateDocument";
 			case "SetNodeRights":
 				return "urn:DocMan.service.livelink.opentext.com/SetNodeRights"
+			case "GetNodeByPath":
+				return "urn:DocMan.service.livelink.opentext.com/GetNodeByPath";
 			default: 
 				return "";
 		}

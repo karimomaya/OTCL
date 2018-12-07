@@ -40,11 +40,11 @@ class __OTCommands {
     create(type,name, parent_id){
 
         var _OTRequestData = new __OTRequestData();
+        if(!parent_id) parent_id = 2000;
         
-        if(isNaN(parent_id)) {
-            _OTRequestData.setError("Invalid parent id " + parent_id);
-            return _OTRequestData;
-        }
+        if(isNaN(parent_id)) 
+            parent_id = this.get_node_by_path(parent_id);
+        
         
         var url = this._OTConfig.__OTCSURL+'api/v2/nodes/';
         _OTRequestData.setURL(url);
@@ -57,6 +57,21 @@ class __OTCommands {
         _OTRequestData.setMethod("POST");
 
         return this.post(_OTRequestData);
+    }
+
+    get_node_by_path(path){
+        
+        var value = this.get_node_by_path_message(__OTVARIABLES["xmltoken"], path.split("/"));
+        var _OTRequestData = new __OTRequestData();
+        _OTRequestData.setURL(this._OTConfig.__OTWSDLURL);
+        _OTRequestData.setContentType("xml");
+        _OTRequestData.setMethod("POST");
+        _OTRequestData.setValues(value);
+        _OTRequestData.setToken(__OTVARIABLES["xmltoken"]);
+        _OTRequestData.setReturn("xml.properties.id");
+        _OTRequestData.setSoapAction("GetNodeByPath");
+        return this.post(_OTRequestData);
+
     }
 
     search_users_roles(type, name){
@@ -282,6 +297,20 @@ class __OTCommands {
             }
         }
         return result;
+    }
+	
+	 get_node_by_path_message(token, pathes){
+        var soap =  "<?xml version=\"1.0\" ?><S:Envelope xmlns:S=\"http://schemas.xmlsoap.org/soap/envelope/\">"+
+        "<S:Header><OTAuthentication xmlns=\"urn:api.ecm.opentext.com\"><AuthenticationToken>"+token+"</AuthenticationToken></OTAuthentication>"+
+        "</S:Header><S:Body><ns3:GetNodeByPath xmlns=\"urn:api.ecm.opentext.com\" "+
+        "xmlns:ns2=\"urn:Core.service.livelink.opentext.com\" xmlns:ns3=\"urn:DocMan.service.livelink.opentext.com\">"+
+        "<ns3:rootID>2000</ns3:rootID>";
+        var path = null;
+        while( path = pathes.shift() ){
+            soap += "<ns3:pathElements>"+path+"</ns3:pathElements>";
+        }
+        soap += "</ns3:GetNodeByPath></S:Body></S:Envelope>";
+        return soap;
     }
 
     config_permissions_message(permissions, userId, beginWith, endWith){

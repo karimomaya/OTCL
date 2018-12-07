@@ -30,6 +30,10 @@ class __OTRequestData {
 	setCompiler(compiler){
 		this.compiler = compiler;
 	}
+	setSearchedValue(value){
+		this.searchedValue = value;
+	}
+
 
 }
 module.exports = __OTRequestData;
