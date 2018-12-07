@@ -25,7 +25,7 @@ OTRExpression
 OTVariable = "$" [a-zA-Z]+ {return text().replace("$", "") }
  			/ [a-zA-Z0-9]+ {return text()}
             
-OTGet = "get" url:[ \t,+a-zA-Z0-9$\/:\.\\'"]* {return "_OTCommands.get_node_by_path("+url.join('')+")";}
+OTGet = "get" url:[ \t,+a-zA-Z0-9$\/:\.\\'_"]* {return "_OTCommands.get_node_by_path("+url.join('')+")";}
 
 OTSet = "set" _ obj:("category"/"permission") _ url:[ \t,+a-zA-Z0-9$\/:\.\\'"]+ {return "_OTCommands.set_"+obj+ "("+url.join('')+")";}
 
