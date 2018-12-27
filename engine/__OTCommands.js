@@ -86,6 +86,7 @@ class __OTCommands {
         _OTRequestData.setMethod("GET");
         _OTRequestData.setReturn("search.id");
 
+	_OTRequestData.setSearchedValue(name);
         return this.post(_OTRequestData);
     }
 
