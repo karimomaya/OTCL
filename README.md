@@ -45,12 +45,16 @@ voila everything is working enjoy configure you application using simple command
 <?xml version="1.0" encoding="UTF-8"?>
 <categories>
 	<category>
-		<name>first name</name>
+		<name>Serial Number</name>
+		<type>int</type>
+	</category>
+	<category>
+		<name>Author Name</name>
 		<type>string</type>
 	</category>
 	<category>
-		<name>last name</name>
-		<type>string</type>
+		<name>Publish Date</name>
+		<type>date</type>
 	</category>
 </categories>
 ```
@@ -61,22 +65,39 @@ voila everything is working enjoy configure you application using simple command
 #### Declare permission
 1- <code> create folder called config under the project path </code> <br>
 2- <code> inside config folder create a file with extension .per </code> <br>
-3- <code> make your permission look like this </code> <br>
+3- <code> supported permissions add, delete, deleteversions, edit, editpermissions, modify, reserve, see, seecontent </code> <br>
+4- <code> make your permission look like this </code> <br>
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <permissions>
 	<permission>
 		<type>user</type>
-		<name>username</name>
-		<access>see</access>
+		<name>%username%</name>
+		<access>%permission%</access>
 	</permission>
 	<permission>
 		<type>group</type>
-		<name>groupname</name>
-		<access>see</access>
+		<name>%group name%</name>
+		<access>%permission%</access>
+	</permission>
+	<permission>
+		<type>owner</type>
+		<name>%owner name%</name>
+		<access>%permission%</access>
+	</permission>
+	<permission>
+		<type>ownergroup</type>
+		<name>%owner group name%</name>
+		<access>%permission%</access>
+	</permission>
+	<permission>
+		<type>public</type>
+		<access>%permission%</access>
 	</permission>
 </permissions>
 ```
+* <b>Note: </b> if owner didn't set by default it will set the use that you authenticate with.
+* <b>Note: </b> write you permissions with comman seperated.
 #### set permission
 * <code> set permission %node id% , %name of the declaration permission without extension% </code> <br>
 #### Write native Javascript code
