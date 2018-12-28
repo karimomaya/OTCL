@@ -35,6 +35,10 @@ voila everything is working enjoy configure you application using simple command
 7- <code>create task_group %name%, %parent id%</code> <br>
 8- <code>create task_list %name%, %parent id%</code> <br>
 9- <code>create task_milistone %name%, %parent id%</code> <br>
+#### Useful tips in creation Nodes
+* if you not specify a parent id by default it will set it below the enterprise
+* if you change parent id with folder path it will put it into that folder
+* or you can set only the parent id of the node
 #### Get Folder ID by path
 * <code>$pathID = get %path% </code> <br>
 #### Declare Categories
