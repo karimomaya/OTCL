@@ -39,25 +39,18 @@ voila everything is working enjoy configure you application using simple command
 * <code>$pathID = get %path% </code> <br>
 #### Declare Categories
 1- create folder called config under the project path <br>
-2- inside config folder create a file with extension .cat <br>
+2- inside config folder create a file with extension .cat <br> 
 3- make your category look like this <br>
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
 <categories>
 	<category>
-		<name>Serial Number</name>
-		<type>int</type>
-	</category>
-	<category>
-		<name>Author Name</name>
-		<type>string</type>
-	</category>
-	<category>
-		<name>Publish Date</name>
-		<type>date</type>
+		<name>%category name%</name>
+		<type>%category type%</type>
 	</category>
 </categories>
 ```
+4- <b>Note: </b> the Supported category is string, int and date
 #### Create Categories
 * <code>create category %name% , %parent id% , %name of the declaration catergory without extension% </code> <br>
 #### set category
@@ -71,16 +64,6 @@ voila everything is working enjoy configure you application using simple command
 <?xml version="1.0" encoding="UTF-8"?>
 <permissions>
 	<permission>
-		<type>user</type>
-		<name>%username%</name>
-		<access>%permission%</access>
-	</permission>
-	<permission>
-		<type>group</type>
-		<name>%group name%</name>
-		<access>%permission%</access>
-	</permission>
-	<permission>
 		<type>owner</type>
 		<name>%owner name%</name>
 		<access>%permission%</access>
@@ -92,6 +75,16 @@ voila everything is working enjoy configure you application using simple command
 	</permission>
 	<permission>
 		<type>public</type>
+		<access>%permission%</access>
+	</permission>
+	<permission>
+		<type>user</type>
+		<name>%username%</name>
+		<access>%permission%</access>
+	</permission>
+	<permission>
+		<type>group</type>
+		<name>%group name%</name>
 		<access>%permission%</access>
 	</permission>
 </permissions>
