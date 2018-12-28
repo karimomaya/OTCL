@@ -35,7 +35,7 @@ voila everything is working enjoy configure you application using simple command
 7- <code>create task_group %name%, %parent id%</code> <br>
 8- <code>create task_list %name%, %parent id%</code> <br>
 9- <code>create task_milistone %name%, %parent id%</code> <br>
-#### Get folder by path
+#### Get Folder ID by path
 * <code>$pathID = get %path% </code> <br>
 #### Declare Categories
 1- create folder called config under the project path <br>
