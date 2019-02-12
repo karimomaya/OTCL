@@ -70,8 +70,10 @@ function __OTPostRequest(__OTRequestData) {
 					}
 				}
 				else {
+					if(typeof JSON.parse(body).results == "undefined") return body;
+					
 					var data = JSON.parse(body).results.data;
-					if(typeof data == "undefined") return null;
+					if(typeof data == "undefined") return JSON.parse(body).results;
 					if(typeof data.properties =="undefined") return null;
 					result = data.properties.id;
 				}

@@ -9,10 +9,12 @@ class __OTCommands {
     constructor() {
         this._OTConfig = new __OTConfig();
     }
-
+	authxml(username, password){
+		return this._auth(username, password,'xml');
+	}
     auth(username, password){
-        __OTVARIABLES['token'] = this._auth(username, password);
-        __OTVARIABLES['xmltoken'] = this._auth(username, password,'xml');
+        return this._auth(username, password);
+        
     }
 
     _auth(username, password, xml){
@@ -58,6 +60,8 @@ class __OTCommands {
 
         return this.post(_OTRequestData);
     }
+	
+	
 
     get_node_by_path(path){
         
@@ -73,6 +77,33 @@ class __OTCommands {
         return this.post(_OTRequestData);
 
     }
+	
+	delete_by_id(id){
+		var _OTRequestData = new __OTRequestData();
+        var url = this._OTConfig.__OTCSURL+'api/v2/nodes/'+id;
+        _OTRequestData.setURL(url);
+        _OTRequestData.setContentType("application/json");
+        
+        _OTRequestData.setToken(__OTVARIABLES["token"]);
+        _OTRequestData.setMethod("DELETE");
+
+        return this.post(_OTRequestData);
+	}
+	
+	get_sub_nodes(id){
+		
+		
+		var _OTRequestData = new __OTRequestData();
+        var url = this._OTConfig.__OTCSURL+'api/v2/nodes/'+id +'/nodes';
+        _OTRequestData.setURL(url);
+        _OTRequestData.setContentType("application/json");
+        
+        _OTRequestData.setToken(__OTVARIABLES["token"]);
+        _OTRequestData.setMethod("GET");
+
+        return this.post(_OTRequestData);
+		
+	}
 
     search_users_roles(type, name){
         // 0 for user 1 for groups
@@ -86,7 +117,7 @@ class __OTCommands {
         _OTRequestData.setMethod("GET");
         _OTRequestData.setReturn("search.id");
 
-	_OTRequestData.setSearchedValue(name);
+		_OTRequestData.setSearchedValue(name);
         return this.post(_OTRequestData);
     }
 
