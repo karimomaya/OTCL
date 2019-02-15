@@ -45,6 +45,7 @@ voila everything is working enjoy configure you application using simple command
 * <code>$pathID = get %path% </code> <br>
 #### Get Sub Nodes
 * <code>$objects = subnodes %node id% </code> <br>
+in the previous code you will get variable object that contains all a list of sub nodes properties you can iterate on it to see what it hold
 #### Declare Categories
 1- create folder called config under the project path <br>
 2- inside config folder create a file with extension .cat <br> 
